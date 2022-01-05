@@ -9,10 +9,12 @@ public class Movement : MonoBehaviour
     public float RotationSpeed = 10f;
 
     public GameObject Camera;
+
+    private Animator _animator;
     // Start is called before the first frame update
     void Start()
     {
-        
+        _animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -32,6 +34,11 @@ public class Movement : MonoBehaviour
                 Quaternion.LookRotation(movementVector),
                 Time.deltaTime * RotationSpeed
             );
+            _animator.SetFloat("SPEED",1f);
+        }
+        else
+        {
+            _animator.SetFloat("SPEED",0f);
         }
 
     }
