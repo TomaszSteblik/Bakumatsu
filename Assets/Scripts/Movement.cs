@@ -29,6 +29,8 @@ public class Movement : MonoBehaviour
             movementVector = Quaternion.Euler(0f, Camera.transform.rotation.eulerAngles.y, 0f) * movementVector;
 
             transform.position += movementVector * Speed;
+
+            movementVector *= -1;
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
                 Quaternion.LookRotation(movementVector),
