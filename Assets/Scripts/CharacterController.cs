@@ -40,6 +40,13 @@ public class CharacterController : MonoBehaviour
             _animator.SetFloat("Speed",0f);
         }
 
+        if(Input.GetKeyDown(KeyCode.J))
+            _animator.SetTrigger("ATTACK_1");
+        if(Input.GetKeyDown(KeyCode.K))
+            _animator.SetTrigger("ATTACK_2");
+        if(Input.GetKeyDown(KeyCode.L))
+            _animator.SetTrigger("ATTACK_3");
+
     }
 
 }
