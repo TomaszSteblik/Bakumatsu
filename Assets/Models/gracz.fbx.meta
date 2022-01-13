@@ -18,7 +18,17 @@ ModelImporter:
   - first:
       74: 4320190742753381013
     second: Armature|RUN
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PantsMaterial1
+    second: {fileID: 2100000, guid: 3d431a34d9db14c779111137ead59bf9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bodyMaterial
+    second: {fileID: 2100000, guid: 24de3b35b4c8d445b8896afacd619506, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -34,28 +44,7 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Armature|ATTACK1' has import animation warnings
-      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'Hips.Control' has translation animation
-      that will be discarded.\n\t'Chest' is inbetween humanoid transforms and has
-      rotation animation that will be discarded.\n\t'LowerLeg.R' has scale animation
-      that will be discarded.\n\t'Feet.R' has scale animation that will be discarded.\n\nClip
-      'Armature|ATTACK2' has import animation warnings that might lower retargeting
-      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'Hips.Control'
-      has translation animation that will be discarded.\n\t'Chest' is inbetween humanoid
-      transforms and has rotation animation that will be discarded.\n\nClip 'Armature|ATTACK3'
-      has import animation warnings that might lower retargeting quality:\nNote:
-      Activate translation DOF on avatar to improve retargeting quality.\n\t'Hips.Control'
-      has translation animation that will be discarded.\n\t'Chest' is inbetween humanoid
-      transforms and has rotation animation that will be discarded.\n\t'Feet.R' has
-      scale animation that will be discarded.\n\nClip 'Armature|IDLE' has import
-      animation warnings that might lower retargeting quality:\nNote: Activate translation
-      DOF on avatar to improve retargeting quality.\n\t'Hips.Control' has translation
-      animation that will be discarded.\n\t'Hips.Control' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n\nClip 'Armature|RUN' has
-      import animation warnings that might lower retargeting quality:\nNote: Activate
-      translation DOF on avatar to improve retargeting quality.\n\t'Hips.Control'
-      has translation animation that will be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
