@@ -14,6 +14,13 @@ public class CharacterController : MonoBehaviour
     public GameObject Camera;
 
     private Animator _animator;
+
+    private bool comboLock;
+    private float timeForAttack2;
+    private float timeForAttack3;
+    private float attack1Timeout;
+    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -24,20 +31,49 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
 
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_1"))
-            return;
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_2"))
-            return;
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_3"))
-            return;
+        // if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_1"))
+        //     return;
+        // if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_2"))
+        //     return;
+        // if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_3"))
+        //     return;
+
+        if (attack1Timeout > 0) attack1Timeout -= Time.deltaTime;
+        if (timeForAttack2 > 0) timeForAttack2 -= Time.deltaTime;
+        if (timeForAttack3 > 0) timeForAttack3 -= Time.deltaTime;
+        if (timeForAttack2 <= 0 && timeForAttack3 <= 0 && attack1Timeout <= 0) comboLock = false;
         
         
-        if(Input.GetKeyDown(KeyCode.J))
-            _animator.SetTrigger("ATTACK_1");
-        if(Input.GetKeyDown(KeyCode.K))
-            _animator.SetTrigger("ATTACK_2");
-        if(Input.GetKeyDown(KeyCode.L))
-            _animator.SetTrigger("ATTACK_3");
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            if (!comboLock)
+            {
+                _animator.SetTrigger("ATTACK_1");
+                timeForAttack2 = 1.5f;
+                comboLock = true;
+                attack1Timeout = 2.5f;
+            }
+            
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (timeForAttack2 > 0 && timeForAttack2 < 1f)
+            {
+                _animator.SetTrigger("ATTACK_2");
+                timeForAttack3 = 1.5f;
+            }
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            if (timeForAttack3 > 0 && timeForAttack3 < 1f)
+            {
+                _animator.SetTrigger("ATTACK_3");
+            }   
+        }
 
     }
 
