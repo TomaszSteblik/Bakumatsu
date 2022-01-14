@@ -22,6 +22,14 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_1"))
+            return;
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_2"))
+            return;
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_3"))
+            return;
+        
         var horizontalAxis = Input.GetAxis("Horizontal");
         var verticalAxis = Input.GetAxis("Vertical");
         var movementVector = new Vector3(horizontalAxis, 0f, verticalAxis);
