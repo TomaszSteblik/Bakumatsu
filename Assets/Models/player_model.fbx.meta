@@ -1,8 +1,41 @@
 fileFormatVersion: 2
-guid: bbd1a29d1e67c9b44af373212abd64f7
+guid: 359035e8ff44ce843a1d3b2eea5bb784
 ModelImporter:
   serializedVersion: 21202
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: -5159676660131823231
+    second: Armature|ATTACK1
+  - first:
+      74: 524634514266502050
+    second: Armature|ATTACK2
+  - first:
+      74: 220736092182023552
+    second: Armature|ATTACK3
+  - first:
+      74: -2686194715341458072
+    second: Armature|ATTACK4
+  - first:
+      74: 1383971198628535690
+    second: Armature|ATTACK5
+  - first:
+      74: -7866947736305167701
+    second: Armature|BLOCK_HIGH
+  - first:
+      74: 7161151540026649766
+    second: Armature|BLOCK_LOW
+  - first:
+      74: -4730462054637364248
+    second: Armature|BLOCK_MEDIUM
+  - first:
+      74: 2876981554226286365
+    second: Armature|IDLE
+  - first:
+      74: 3553258002829638898
+    second: Armature|RUN_2
+  - first:
+      74: -8269528890525105016
+    second: Armature|RUN_3
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -97,7 +130,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   additionalBone: 0
   userData: 
