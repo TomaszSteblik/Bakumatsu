@@ -6,7 +6,8 @@ using UnityEngine;
 public class CharacterController : MonoBehaviour
 {
     // Start is called before the first frame update
-    public float Speed = 0.1f;
+    public float Speed = 8f;
+    private float _actualSpeed;
 
     public Vector3 movementVector;
     public float RotationSpeed = 10f;
@@ -25,6 +26,7 @@ public class CharacterController : MonoBehaviour
     void Start()
     {
         _animator = GetComponent<Animator>();
+        _actualSpeed = Speed;
     }
 
     // Update is called once per frame
@@ -43,8 +45,28 @@ public class CharacterController : MonoBehaviour
         if (timeForAttack3 > 0) timeForAttack3 -= Time.deltaTime;
         if (timeForAttack2 <= 0 && timeForAttack3 <= 0 && attack1Timeout <= 0) comboLock = false;
         
-        
+        var horizontalAxis = Input.GetAxis("Horizontal");
+        var verticalAxis = Input.GetAxis("Vertical");
+        movementVector = new Vector3(horizontalAxis, 0f, verticalAxis);
+        movementVector = movementVector.normalized;
 
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _actualSpeed = Speed * 1.75f;
+        }
+        else
+        {
+            _actualSpeed = Speed;
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            _animator.SetTrigger("BLOCK");
+            return;
+        }
+        
+        
         if (Input.GetKeyDown(KeyCode.J))
         {
             if (!comboLock)
@@ -61,6 +83,7 @@ public class CharacterController : MonoBehaviour
         {
             if (timeForAttack2 > 0 && timeForAttack2 < 1f)
             {
+                timeForAttack2 = 0f;
                 _animator.SetTrigger("ATTACK_2");
                 timeForAttack3 = 1.5f;
             }
@@ -71,6 +94,7 @@ public class CharacterController : MonoBehaviour
         {
             if (timeForAttack3 > 0 && timeForAttack3 < 1f)
             {
+                timeForAttack3 = 0f;
                 _animator.SetTrigger("ATTACK_3");
             }   
         }
@@ -85,22 +109,19 @@ public class CharacterController : MonoBehaviour
             return;
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_3"))
             return;
-        var horizontalAxis = Input.GetAxis("Horizontal");
-        var verticalAxis = Input.GetAxis("Vertical");
-        movementVector = new Vector3(horizontalAxis, 0f, verticalAxis);
-        movementVector = movementVector.normalized;
+        
 
         if (movementVector != Vector3.zero)
         {
             movementVector = Quaternion.Euler(0f, Camera.transform.rotation.eulerAngles.y, 0f) * movementVector;
-            transform.position += movementVector * Speed * Time.deltaTime;
+            transform.position += movementVector * _actualSpeed * Time.deltaTime;
 
 
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
                 Quaternion.LookRotation(movementVector),
                 RotationSpeed * Time.deltaTime);
-            _animator.SetFloat("Speed",1f);
+            _animator.SetFloat("Speed",_actualSpeed);
         }
         else
         {
