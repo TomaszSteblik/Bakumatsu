@@ -16,6 +16,9 @@ public class CharacterController : MonoBehaviour
 
     private Animator _animator;
 
+    public bool isAttacking;
+    private float toAttackEnd = 0f;
+
     private bool comboLock;
     private float timeForAttack2;
     private float timeForAttack3;
@@ -44,6 +47,9 @@ public class CharacterController : MonoBehaviour
         if (timeForAttack2 > 0) timeForAttack2 -= Time.deltaTime;
         if (timeForAttack3 > 0) timeForAttack3 -= Time.deltaTime;
         if (timeForAttack2 <= 0 && timeForAttack3 <= 0 && attack1Timeout <= 0) comboLock = false;
+        if (toAttackEnd > 0) toAttackEnd -= Time.deltaTime;
+        if (toAttackEnd <= 0f) isAttacking = false;
+        else isAttacking = true;
         
         var horizontalAxis = Input.GetAxis("Horizontal");
         var verticalAxis = Input.GetAxis("Vertical");
@@ -75,6 +81,7 @@ public class CharacterController : MonoBehaviour
                 timeForAttack2 = 1.5f;
                 comboLock = true;
                 attack1Timeout = 2.5f;
+                toAttackEnd = 1f;
             }
             
         }
@@ -86,6 +93,7 @@ public class CharacterController : MonoBehaviour
                 timeForAttack2 = 0f;
                 _animator.SetTrigger("ATTACK_2");
                 timeForAttack3 = 1.5f;
+                toAttackEnd = 1f;
             }
 
         }
@@ -96,6 +104,7 @@ public class CharacterController : MonoBehaviour
             {
                 timeForAttack3 = 0f;
                 _animator.SetTrigger("ATTACK_3");
+                toAttackEnd = 1f;
             }   
         }
 
