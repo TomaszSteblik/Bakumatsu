@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAi : MonoBehaviour
 {
-    public Transform PlayerPosition;
+    public GameObject Player;
+    private Transform PlayerPosition;
 
     private Animator _animator;
 
@@ -19,6 +20,7 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerPosition = Player.transform;
         _animator = GetComponent<Animator>();
     }
 
@@ -39,7 +41,15 @@ public class EnemyAI : MonoBehaviour
 
         if (distance <= AttackRange)
         {
-            if(attackDelay <= 0f)
+
+            if (attackDelay <= 0f)
+            {
+                if (Player.GetComponent<CharacterController>().isAttacking)
+                {
+                    _animator.SetTrigger("BLOCK");
+                    attackDelay = 1f;
+                    return;
+                }
                 switch (currentAttack)
                 {
                     case 1:
@@ -64,6 +74,8 @@ public class EnemyAI : MonoBehaviour
                         break;
                     }
                 }
+            }
+                
             
             
         }
