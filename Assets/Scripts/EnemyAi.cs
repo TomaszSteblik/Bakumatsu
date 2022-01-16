@@ -8,6 +8,7 @@ public class EnemyAi : MonoBehaviour
 {
     public GameObject Player;
     private Transform PlayerPosition;
+    private CharacterController PlayerControler;
 
     private Animator _animator;
 
@@ -21,6 +22,7 @@ public class EnemyAi : MonoBehaviour
     void Start()
     {
         PlayerPosition = Player.transform;
+        PlayerControler = Player.GetComponent<CharacterController>();
         _animator = GetComponent<Animator>();
     }
 
@@ -33,18 +35,35 @@ public class EnemyAi : MonoBehaviour
 
         attackDelay -= Time.deltaTime;
 
-        transform.rotation = Quaternion.LookRotation(vectorBetween);
-        if (distance < 10 && distance > AttackRange)
+        if (distance < 20)
+            transform.rotation = Quaternion.LookRotation(vectorBetween);
+        
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_1"))
+            return;
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_2"))
+            return;
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_3"))
+            return;
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("BLOCK"))
+            return;
+
+        if (attackDelay <= 0f)
         {
-            _movementVector = vectorBetween.normalized;
-        } else {_movementVector = Vector3.zero;}
+            if (distance < 10 && distance > AttackRange)
+            {
+                _movementVector = vectorBetween.normalized;
+            } else {_movementVector = Vector3.zero;}
+        }
 
         if (distance <= AttackRange)
         {
 
             if (attackDelay <= 0f)
             {
-                if (Player.GetComponent<CharacterController>().isAttacking)
+                
+                
+                
+                if (PlayerControler.isAttacking)
                 {
                     _animator.SetTrigger("BLOCK");
                     attackDelay = 1f;
