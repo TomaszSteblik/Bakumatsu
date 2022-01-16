@@ -36,12 +36,7 @@ public class CharacterController : MonoBehaviour
     void Update()
     {
 
-        // if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_1"))
-        //     return;
-        // if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_2"))
-        //     return;
-        // if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_3"))
-        //     return;
+        
 
         if (attack1Timeout > 0) attack1Timeout -= Time.deltaTime;
         if (timeForAttack2 > 0) timeForAttack2 -= Time.deltaTime;
@@ -51,11 +46,19 @@ public class CharacterController : MonoBehaviour
         if (toAttackEnd <= 0f) isAttacking = false;
         else isAttacking = true;
         
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_1"))
+            return;
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_2"))
+            return;
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_3"))
+            return;
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("BLOCK"))
+            return;
+        
         var horizontalAxis = Input.GetAxis("Horizontal");
         var verticalAxis = Input.GetAxis("Vertical");
         movementVector = new Vector3(horizontalAxis, 0f, verticalAxis);
         movementVector = movementVector.normalized;
-
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
