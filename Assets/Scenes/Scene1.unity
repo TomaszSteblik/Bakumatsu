@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7770,14 +7770,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1240339461}
-  m_LocalRotation: {x: 0.30983648, y: -0.6210285, z: 0.29249167, w: 0.6578554}
-  m_LocalPosition: {x: 149.21, y: 111.25, z: 97.18}
+  m_LocalRotation: {x: -0.33141357, y: 0.46193978, z: -0.19134171, w: -0.8001032}
+  m_LocalPosition: {x: 152.5, y: 109.5, z: 97.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 50.439, y: -86.701, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 300, z: 0}
 --- !u!114 &1240339465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9618,7 +9618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 8
   movementVector: {x: 0, y: 0, z: 0}
-  RotationSpeed: 0
+  RotationSpeed: 10
   Camera: {fileID: 1240339461}
   isAttacking: 0
 --- !u!95 &1526686276
@@ -9650,24 +9650,11 @@ MeshCollider:
   m_GameObject: {fileID: 1526686274}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!65 &1526686278
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1526686274}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!54 &1526686279
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9684,6 +9671,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!136 &1526686281
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526686274}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &1536953227
 GameObject:
   m_ObjectHideFlags: 0
@@ -13598,7 +13599,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 359035e8ff44ce843a1d3b2eea5bb784, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 96.98
+      value: 100.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 359035e8ff44ce843a1d3b2eea5bb784, type: 3}
       propertyPath: m_LocalPosition.z
