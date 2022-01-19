@@ -141,4 +141,13 @@ public class CharacterController : MonoBehaviour
         }
 
     }
+
+    public void GotHit(GameObject sender)
+    {
+        var parentId = GetComponentInParent<Guid>().Id;
+        var senderId = sender.gameObject.GetComponentInParent<Guid>().Id;
+        
+        if(parentId != senderId)    
+            Debug.Log("PLAYER HIT");
+    }
 }
