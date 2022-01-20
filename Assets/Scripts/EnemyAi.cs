@@ -114,4 +114,14 @@ public class EnemyAi : MonoBehaviour
     {
         transform.position += _movementVector * 8 * Time.deltaTime;
     }
+
+    public void GotHit(GameObject sender)
+    {
+        var parentId = GetComponentInParent<Guid>().Id;
+        var senderId = sender.gameObject.GetComponentInParent<Guid>().Id;
+        
+        if(parentId != senderId)    
+            Debug.Log("ENEMY HIT");
+
+    }
 }
