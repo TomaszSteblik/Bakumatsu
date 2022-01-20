@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
-public class CharacterController : MonoBehaviour
+public class CharacterController : MonoBehaviour, IBlockable
 {
     // Start is called before the first frame update
     public float Speed = 8f;
@@ -17,12 +18,20 @@ public class CharacterController : MonoBehaviour
     private Animator _animator;
 
     public bool isAttacking;
-    private float toAttackEnd = 0f;
+    public bool isBlocking { get; set; }
+    
+    public bool blocked;
+    public float blockedTimeout;
 
-    private bool comboLock;
-    private float timeForAttack2;
-    private float timeForAttack3;
-    private float attack1Timeout;
+
+    public bool inputLock;
+    public float inputTimeout;
+
+    public float attack1Timeout;
+    public float attack2Timeout;
+    public float attack3Timeout;
+    public float blockTimeout;
+    
     
     
     // Start is called before the first frame update
@@ -35,16 +44,103 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        var horizontalAxis = Input.GetAxis("Horizontal");
+        var verticalAxis = Input.GetAxis("Vertical");
+        movementVector = new Vector3(horizontalAxis, 0f, verticalAxis);
+        movementVector = movementVector.normalized;
 
+        if (attack1Timeout >= 0f) attack1Timeout -= Time.deltaTime;
+        if (attack2Timeout >= 0f) attack2Timeout -= Time.deltaTime;
+        if (attack3Timeout >= 0f) attack3Timeout -= Time.deltaTime;
+        if (blockTimeout >= 0f) blockTimeout -= Time.deltaTime;
+        if (blockedTimeout >= 0f) blockedTimeout -= Time.deltaTime;
+
+        if (blockedTimeout >= 0f)
+        {
+            return;
+        }
         
 
-        if (attack1Timeout > 0) attack1Timeout -= Time.deltaTime;
-        if (timeForAttack2 > 0) timeForAttack2 -= Time.deltaTime;
-        if (timeForAttack3 > 0) timeForAttack3 -= Time.deltaTime;
-        if (timeForAttack2 <= 0 && timeForAttack3 <= 0 && attack1Timeout <= 0) comboLock = false;
-        if (toAttackEnd > 0) toAttackEnd -= Time.deltaTime;
-        if (toAttackEnd <= 0f) isAttacking = false;
-        else isAttacking = true;
+        if (blockTimeout <= 0f)
+        {
+            isBlocking = false;
+        }
+
+        if (inputTimeout <= 0f)
+        {
+            inputLock = false;
+            isAttacking = false;
+        }
+        else
+        {
+            inputLock = true;
+            inputTimeout -= Time.deltaTime;
+        }
+
+        if (inputLock) return;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _actualSpeed = Speed * 1.75f;
+        }
+        else
+        {
+            _actualSpeed = Speed;
+        }
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("BLOCKED"))
+        {
+            if(!blocked)
+                blockedTimeout = 1f;
+            return;
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            _animator.SetTrigger("BLOCK");
+            inputTimeout = 0.3f;
+            isBlocking = true;
+            blockTimeout = 0.6f;
+            
+            return;
+        }
+        
+        
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            if (attack1Timeout <= 0f)
+            {
+                _animator.SetTrigger("ATTACK_1");
+                attack1Timeout = 0.6f;
+                inputTimeout = 0.3f;
+                isAttacking = true;
+                return;
+            }
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if(attack2Timeout <= 0f){
+                _animator.SetTrigger("ATTACK_2");
+                attack2Timeout = 0.6f;
+                inputTimeout = 0.3f;
+                isAttacking = true;
+                return;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            if(attack3Timeout <= 0f){
+                _animator.SetTrigger("ATTACK_3");
+                attack3Timeout = 0.6f;
+                inputTimeout = 0.3f;
+                isAttacking = true;
+                return;
+            }
+        }
         
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_1"))
             return;
@@ -55,61 +151,6 @@ public class CharacterController : MonoBehaviour
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("BLOCK"))
             return;
         
-        var horizontalAxis = Input.GetAxis("Horizontal");
-        var verticalAxis = Input.GetAxis("Vertical");
-        movementVector = new Vector3(horizontalAxis, 0f, verticalAxis);
-        movementVector = movementVector.normalized;
-
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            _actualSpeed = Speed * 1.75f;
-        }
-        else
-        {
-            _actualSpeed = Speed;
-        }
-
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            _animator.SetTrigger("BLOCK");
-            return;
-        }
-        
-        
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            if (!comboLock)
-            {
-                _animator.SetTrigger("ATTACK_1");
-                timeForAttack2 = 1.5f;
-                comboLock = true;
-                attack1Timeout = 2.5f;
-                toAttackEnd = 1f;
-            }
-            
-        }
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            if (timeForAttack2 > 0 && timeForAttack2 < 1f)
-            {
-                timeForAttack2 = 0f;
-                _animator.SetTrigger("ATTACK_2");
-                timeForAttack3 = 1.5f;
-                toAttackEnd = 1f;
-            }
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            if (timeForAttack3 > 0 && timeForAttack3 < 1f)
-            {
-                timeForAttack3 = 0f;
-                _animator.SetTrigger("ATTACK_3");
-                toAttackEnd = 1f;
-            }   
-        }
         
         if (movementVector != Vector3.zero)
         {
@@ -135,8 +176,8 @@ public class CharacterController : MonoBehaviour
         var parentId = GetComponentInParent<Guid>().Id;
         var senderId = sender.gameObject.GetComponentInParent<Guid>().Id;
         
-        if(parentId != senderId)    
-            Debug.Log("PLAYER HIT");
+        //if(parentId != senderId)    
+            //Debug.Log("PLAYER HIT");
     }
     private void FixedUpdate()
     {
@@ -151,4 +192,5 @@ public class CharacterController : MonoBehaviour
         
 
     }
+
 }

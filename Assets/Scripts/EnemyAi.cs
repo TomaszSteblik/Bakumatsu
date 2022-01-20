@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
-public class EnemyAi : MonoBehaviour
+public class EnemyAi : MonoBehaviour, IBlockable
 {
     public GameObject Player;
     private Transform PlayerPosition;
@@ -16,6 +17,13 @@ public class EnemyAi : MonoBehaviour
 
     private float attackDelay;
     public float AttackRange = 1.5f;
+
+    public bool blocked;
+    public float blockedTimeout;
+    
+    public float blockTimeout;
+
+    public bool isBlocking { get; set; }
 
     private int currentAttack = 1;
     // Start is called before the first frame update
@@ -33,6 +41,27 @@ public class EnemyAi : MonoBehaviour
         var vectorBetween = PlayerPosition.position - enemyPosition;
         var distance = vectorBetween.magnitude;
 
+        if (blockedTimeout >= 0)
+        {
+            blockedTimeout -= Time.deltaTime;
+            blocked = true;
+        }
+        else
+        {
+            blocked = false;
+            
+        }
+        
+        if (blockTimeout >= 0f) blockTimeout -= Time.deltaTime;
+        
+        
+
+        if (blockTimeout <= 0f)
+        {
+            isBlocking = false;
+        }
+        
+
         attackDelay -= Time.deltaTime;
 
         if (distance < 20)
@@ -46,6 +75,13 @@ public class EnemyAi : MonoBehaviour
             return;
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("BLOCK"))
             return;
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("BLOCKED"))
+        {
+            if(!blocked)
+                blockedTimeout = 1f;
+            return;
+
+        }
 
         if (attackDelay <= 0f)
         {
@@ -67,6 +103,8 @@ public class EnemyAi : MonoBehaviour
                 {
                     _animator.SetTrigger("BLOCK");
                     attackDelay = 1f;
+                    isBlocking = true;
+                    blockTimeout = 0.6f;
                     return;
                 }
                 switch (currentAttack)
@@ -120,8 +158,8 @@ public class EnemyAi : MonoBehaviour
         var parentId = GetComponentInParent<Guid>().Id;
         var senderId = sender.gameObject.GetComponentInParent<Guid>().Id;
         
-        if(parentId != senderId)    
-            Debug.Log("ENEMY HIT");
+        //if(parentId != senderId)    
+            //Debug.Log("ENEMY HIT");
 
     }
 }
