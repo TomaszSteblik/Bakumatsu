@@ -150,6 +150,10 @@ public class CharacterController : MonoBehaviour, IBlockable
             return;
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("BLOCK"))
             return;
+
+        if (attack1Timeout > 0) return;
+        if (attack2Timeout > 0) return;
+        if (attack3Timeout > 0) return;
         
         
         if (movementVector != Vector3.zero)
