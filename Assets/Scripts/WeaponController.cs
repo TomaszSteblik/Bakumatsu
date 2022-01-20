@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 public class WeaponController : MonoBehaviour
@@ -26,19 +27,15 @@ public class WeaponController : MonoBehaviour
             }
             else if (other.CompareTag("Weapon"))
             {
-                if (other.gameObject.GetComponentInParent<Animator>().GetCurrentAnimatorStateInfo(0).IsTag("Block"))
+                IBlockable otherChar = other.gameObject.GetComponentInParent<CharacterController>();
+                if (otherChar is null) otherChar = other.gameObject.GetComponentInParent<EnemyAi>();
+                if (otherChar.isBlocking)
                 {
-                    ResetAnimation();
+                    _parentAnimator.SetTrigger("BLOCKED");
+                    Debug.Log("blocked");
                 }
             }
         }
     }
 
-    private void ResetAnimation()
-    {
-        _parentAnimator.ResetTrigger("ATTACK_1");
-        _parentAnimator.ResetTrigger("ATTACK_2");
-        _parentAnimator.ResetTrigger("ATTACK_3");
-        _parentAnimator.Play("Idle");
-    }
 }
