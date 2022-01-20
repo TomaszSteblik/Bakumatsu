@@ -110,24 +110,12 @@ public class CharacterController : MonoBehaviour
                 toAttackEnd = 1f;
             }   
         }
-
-    }
-
-    private void FixedUpdate()
-    {
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_1"))
-            return;
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_2"))
-            return;
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_3"))
-            return;
         
-
         if (movementVector != Vector3.zero)
         {
             movementVector = Quaternion.Euler(0f, Camera.transform.rotation.eulerAngles.y, 0f) * movementVector;
             transform.position += movementVector * _actualSpeed * Time.deltaTime;
-
+            
 
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
@@ -149,5 +137,18 @@ public class CharacterController : MonoBehaviour
         
         if(parentId != senderId)    
             Debug.Log("PLAYER HIT");
+    }
+    private void FixedUpdate()
+    {
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_1"))
+            return;
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_2"))
+            return;
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("ATTACK_3"))
+            return;
+        
+
+        
+
     }
 }
