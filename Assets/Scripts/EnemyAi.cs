@@ -27,10 +27,13 @@ public class EnemyAi : MonoBehaviour, IBlockable
 
     private int currentAttack = 1;
     // Start is called before the first frame update
+    private ParticleSystem _particleSystem;
+
     void Start()
     {
         PlayerPosition = Player.transform;
         PlayerControler = Player.GetComponent<CharacterController>();
+        _particleSystem = GetComponent<ParticleSystem>();
         _animator = GetComponent<Animator>();
     }
 
@@ -158,8 +161,8 @@ public class EnemyAi : MonoBehaviour, IBlockable
         var parentId = GetComponentInParent<Guid>().Id;
         var senderId = sender.gameObject.GetComponentInParent<Guid>().Id;
         
-        //if(parentId != senderId)    
-            //Debug.Log("ENEMY HIT");
+        if(parentId != senderId)    
+            _particleSystem.Play();
 
     }
 }

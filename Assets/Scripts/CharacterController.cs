@@ -31,13 +31,14 @@ public class CharacterController : MonoBehaviour, IBlockable
     public float attack2Timeout;
     public float attack3Timeout;
     public float blockTimeout;
-    
-    
+
+    private ParticleSystem _particleSystem;
     
     // Start is called before the first frame update
     void Start()
     {
         _animator = GetComponent<Animator>();
+        _particleSystem = GetComponent<ParticleSystem>();
         _actualSpeed = Speed;
     }
 
@@ -180,8 +181,8 @@ public class CharacterController : MonoBehaviour, IBlockable
         var parentId = GetComponentInParent<Guid>().Id;
         var senderId = sender.gameObject.GetComponentInParent<Guid>().Id;
         
-        //if(parentId != senderId)    
-            //Debug.Log("PLAYER HIT");
+        if(parentId != senderId)    
+            _particleSystem.Play();
     }
     private void FixedUpdate()
     {
