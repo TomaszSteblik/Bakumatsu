@@ -2623,6 +2623,9 @@ MonoBehaviour:
   attack2Timeout: 0
   attack3Timeout: 0
   blockTimeout: 0
+  dead: 0
+  health: 100
+  healthBar: {fileID: 0}
 --- !u!114 &8953130794367287217
 MonoBehaviour:
   m_ObjectHideFlags: 0
