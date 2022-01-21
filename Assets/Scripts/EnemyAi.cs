@@ -32,6 +32,7 @@ public class EnemyAi : MonoBehaviour, IBlockable
 
     public bool dead;
     public int health = 100;
+    public HealthBar healthBar;
 
     void Start()
     {
@@ -40,6 +41,8 @@ public class EnemyAi : MonoBehaviour, IBlockable
         _particleSystem = GetComponent<ParticleSystem>();
         _animator = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
+        health = 100;
+        healthBar.SetMaxHealth(health);
     }
 
     // Update is called once per frame
@@ -194,6 +197,7 @@ public class EnemyAi : MonoBehaviour, IBlockable
         {
             _particleSystem.Play();
             health -= 40;
+            healthBar.SetHealth(health);
         }
     }
 }
