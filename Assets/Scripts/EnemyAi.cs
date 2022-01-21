@@ -28,6 +28,7 @@ public class EnemyAi : MonoBehaviour, IBlockable
     private int currentAttack = 1;
     // Start is called before the first frame update
     private ParticleSystem _particleSystem;
+    private AudioSource _audioSource;
 
     void Start()
     {
@@ -35,6 +36,7 @@ public class EnemyAi : MonoBehaviour, IBlockable
         PlayerControler = Player.GetComponent<CharacterController>();
         _particleSystem = GetComponent<ParticleSystem>();
         _animator = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -142,11 +144,15 @@ public class EnemyAi : MonoBehaviour, IBlockable
 
         if (_movementVector != Vector3.zero)
         {
+            if (_audioSource.isPlaying is false)
+                _audioSource.Play();
             _animator.SetFloat("Speed", 1f);
         }
         else
         {
             _animator.SetFloat("Speed", 0f);
+            if (_audioSource.isPlaying is true)
+                _audioSource.Stop();
         }
         
     }
