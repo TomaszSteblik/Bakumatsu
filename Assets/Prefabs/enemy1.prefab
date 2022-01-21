@@ -160,10 +160,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  AttackRange: 4
+  AttackRange: 3
   blocked: 0
   blockedTimeout: 0
   blockTimeout: 0
+  dead: 0
+  health: 100
 --- !u!114 &1931196718525147023
 MonoBehaviour:
   m_ObjectHideFlags: 0
