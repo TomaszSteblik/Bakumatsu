@@ -34,6 +34,9 @@ public class CharacterController : MonoBehaviour, IBlockable
 
     private ParticleSystem _particleSystem;
     private AudioSource _audioSource;
+
+    public bool dead;
+    public int health = 100;
     
     // Start is called before the first frame update
     void Start()
@@ -42,11 +45,24 @@ public class CharacterController : MonoBehaviour, IBlockable
         _particleSystem = GetComponent<ParticleSystem>();
         _actualSpeed = Speed;
         _audioSource = GetComponent<AudioSource>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (dead)
+        {
+            return;
+        }
+
+        if (health < 0)
+        {
+            dead = true;
+            transform.rotation = Quaternion.Euler(0, 0, 90);
+            GetComponent<Rigidbody>().isKinematic = true;
+            return;
+        }
         
         var horizontalAxis = Input.GetAxis("Horizontal");
         var verticalAxis = Input.GetAxis("Vertical");
@@ -191,8 +207,12 @@ public class CharacterController : MonoBehaviour, IBlockable
 
         if (isBlocking) return;
         
-        if(parentId != senderId)    
+        if(parentId != senderId)
+        {
             _particleSystem.Play();
+            health -= 40;
+        }
+            
     }
     private void FixedUpdate()
     {

@@ -30,6 +30,9 @@ public class EnemyAi : MonoBehaviour, IBlockable
     private ParticleSystem _particleSystem;
     private AudioSource _audioSource;
 
+    public bool dead;
+    public int health = 100;
+
     void Start()
     {
         PlayerPosition = Player.transform;
@@ -42,6 +45,19 @@ public class EnemyAi : MonoBehaviour, IBlockable
     // Update is called once per frame
     void Update()
     {
+        if (dead)
+        {
+            return;
+        }
+
+        if (health < 0)
+        {
+            dead = true;
+            transform.rotation = Quaternion.Euler(0, 0, 90);
+            GetComponent<Rigidbody>().isKinematic = true;
+            return;
+        }
+
         var enemyPosition = transform.position;
         var vectorBetween = PlayerPosition.position - enemyPosition;
         var distance = vectorBetween.magnitude;
@@ -169,8 +185,10 @@ public class EnemyAi : MonoBehaviour, IBlockable
 
         if (isBlocking) return;
 
-        if(parentId != senderId)    
+        if (parentId != senderId)
+        {
             _particleSystem.Play();
-
+            health -= 40;
+        }
     }
 }
