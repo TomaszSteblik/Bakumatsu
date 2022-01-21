@@ -37,6 +37,7 @@ public class CharacterController : MonoBehaviour, IBlockable
 
     public bool dead;
     public int health = 100;
+    public HealthBar healthBar;
     
     // Start is called before the first frame update
     void Start()
@@ -45,7 +46,8 @@ public class CharacterController : MonoBehaviour, IBlockable
         _particleSystem = GetComponent<ParticleSystem>();
         _actualSpeed = Speed;
         _audioSource = GetComponent<AudioSource>();
-
+        health = 100;
+        healthBar.SetMaxHealth(health);
     }
 
     // Update is called once per frame
@@ -211,6 +213,7 @@ public class CharacterController : MonoBehaviour, IBlockable
         {
             _particleSystem.Play();
             health -= 40;
+            healthBar.SetHealth(health);
         }
             
     }
