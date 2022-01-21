@@ -166,7 +166,9 @@ public class EnemyAi : MonoBehaviour, IBlockable
     {
         var parentId = GetComponentInParent<Guid>().Id;
         var senderId = sender.gameObject.GetComponentInParent<Guid>().Id;
-        
+
+        if (isBlocking) return;
+
         if(parentId != senderId)    
             _particleSystem.Play();
 

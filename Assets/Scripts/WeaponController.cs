@@ -24,11 +24,7 @@ public class WeaponController : MonoBehaviour
     {
         if (_parentAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
-            if (other.CompareTag("BodyBone"))
-            {
-                other.gameObject.SendMessageUpwards("GotHit",gameObject);
-            }
-            else if (other.CompareTag("Weapon"))
+            if (other.CompareTag("Weapon"))
             {
                 IBlockable otherChar = other.gameObject.GetComponentInParent<CharacterController>();
                 if (otherChar is null) otherChar = other.gameObject.GetComponentInParent<EnemyAi>();
@@ -38,8 +34,13 @@ public class WeaponController : MonoBehaviour
                     Debug.Log("blocked");
                     if (_audioSource.isPlaying is false)
                         _audioSource.Play();
+                } else
+                {
+                    other.gameObject.SendMessageUpwards("GotHit", gameObject);
                 }
             }
+
+
         }
     }
 
