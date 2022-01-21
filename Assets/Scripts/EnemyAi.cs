@@ -45,10 +45,15 @@ public class EnemyAi : MonoBehaviour, IBlockable
     // Update is called once per frame
     void Update()
     {
+        var enemyPosition = transform.position;
+        var vectorBetween = PlayerPosition.position - enemyPosition;
+        var distance = vectorBetween.magnitude;
+        
         if (dead)
         {
             return;
         }
+
 
         if (health < 0)
         {
@@ -57,10 +62,10 @@ public class EnemyAi : MonoBehaviour, IBlockable
             GetComponent<Rigidbody>().isKinematic = true;
             return;
         }
+        
+        if (distance > 25) return;
 
-        var enemyPosition = transform.position;
-        var vectorBetween = PlayerPosition.position - enemyPosition;
-        var distance = vectorBetween.magnitude;
+        
 
         if (blockedTimeout >= 0)
         {
