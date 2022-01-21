@@ -33,6 +33,7 @@ public class CharacterController : MonoBehaviour, IBlockable
     public float blockTimeout;
 
     private ParticleSystem _particleSystem;
+    private AudioSource _audioSource;
     
     // Start is called before the first frame update
     void Start()
@@ -40,6 +41,7 @@ public class CharacterController : MonoBehaviour, IBlockable
         _animator = GetComponent<Animator>();
         _particleSystem = GetComponent<ParticleSystem>();
         _actualSpeed = Speed;
+        _audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -168,10 +170,16 @@ public class CharacterController : MonoBehaviour, IBlockable
                 Quaternion.LookRotation(movementVector),
                 RotationSpeed * Time.deltaTime);
             _animator.SetFloat("Speed",_actualSpeed);
+            
+            if (_audioSource.isPlaying is false)
+                _audioSource.Play();
+            
         }
         else
         {
             _animator.SetFloat("Speed",0f);
+            if (_audioSource.isPlaying is true)
+                _audioSource.Stop();
         }
 
     }

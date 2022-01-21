@@ -6,9 +6,12 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     private Animator _parentAnimator;
+    private AudioSource _audioSource;
+
     void Start()
     {
         _parentAnimator = GetComponentInParent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -33,6 +36,8 @@ public class WeaponController : MonoBehaviour
                 {
                     _parentAnimator.SetTrigger("BLOCKED");
                     Debug.Log("blocked");
+                    if (_audioSource.isPlaying is false)
+                        _audioSource.Play();
                 }
             }
         }
